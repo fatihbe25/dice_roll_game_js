@@ -91,7 +91,7 @@ const new_game = function () {
 };
 
 const player_wins = function () {
-  alert('win');
+  //alert('win');
 
   console.log(playerSections[currentPlayer]);
   console.log(playerNames[currentPlayer]);

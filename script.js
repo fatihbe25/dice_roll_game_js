@@ -1,5 +1,6 @@
 'use strict';
 
+const win_score = 100;
 let currentPlayer = 0;
 
 const btnRollDice = document.querySelector('.btn--roll');
@@ -19,6 +20,8 @@ const dice = document.querySelector('.dice');
 const roll_dice = function () {
   const rolled_dice = Math.trunc(Math.random() * 6) + 1;
 
+  dice.src = `dice-${rolled_dice}.png`;
+
   if (rolled_dice === 1) {
     switch_player();
   } else {
@@ -28,7 +31,7 @@ const roll_dice = function () {
 };
 
 const switch_player = function () {
-  playerScores[currentPlayer].textContent = '0';
+  currentScores[currentPlayer].textContent = '0';
   currentPlayer = currentPlayer == 0 ? 1 : 0;
   set_active();
 };
@@ -50,25 +53,25 @@ const set_current_score = function (score) {
 
 const get_player_score = function () {
   const player_score = Number(playerScores[currentPlayer].textContent);
-  console.log(currentPlayer, ' ps ', player_score);
+  //console.log(currentPlayer, ' ps ', player_score);
 
   return player_score;
 };
 
 const set_player_score = function (score) {
-  console.log('s', score);
-  console.log(playerScores[currentPlayer]);
+  // console.log('s', score);
+  // console.log(playerScores[currentPlayer]);
 
-  playerScores[currentPlayer].innerText = score;
+  playerScores[currentPlayer].textContent = score;
 };
 
 const hold_score = function () {
   const player_new_score = get_player_score() + get_current_score();
-  console.log('ns', player_new_score);
+  //console.log('ns', player_new_score);
 
   set_player_score(player_new_score);
 
-  if (player_new_score >= 100) {
+  if (player_new_score >= win_score) {
     player_wins();
   } else {
     switch_player();
@@ -76,23 +79,29 @@ const hold_score = function () {
 };
 
 const new_game = function () {
-  playerSections.forEach(player => player.classList.remove('.player--winner'));
-  playerNames.forEach(player => player.classList.remove('.player--winner'));
+  playerSections.forEach(player => player.classList.remove('player--winner'));
+  playerNames.forEach(player => player.classList.remove('player--winner'));
   playerScores.forEach(score => (score.textContent = '0'));
   currentScores.forEach(score => (score.textContent = '0'));
-  btnHold.style.disabled = false;
-  btnRollDice.style.disabled = false;
+  btnHold.disabled = false;
+  btnRollDice.disabled = false;
 
   currentPlayer = 0;
   set_active();
 };
 
 const player_wins = function () {
-  playerSections[currentPlayer].classList.add('.player--winner');
-  playerNames[currentPlayer].classList.add('.player--winner');
+  alert('win');
 
-  btnHold.style.disabled = true;
-  btnRollDice.style.disabled = true;
+  console.log(playerSections[currentPlayer]);
+  console.log(playerNames[currentPlayer]);
+  console.log(btnHold.style.disabled);
+
+  playerSections[currentPlayer].classList.add('player--winner');
+  playerNames[currentPlayer].classList.add('player--winner');
+
+  btnHold.disabled = true;
+  btnRollDice.disabled = true;
 };
 
 btnNewGame.addEventListener('click', new_game);

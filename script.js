@@ -1,9 +1,8 @@
 'use strict';
 
 const win_score = 100;
-let currentPlayer = 0;
 
-let isPlaying = true;
+let currentPlayer, isPlaying;
 
 const btnRollDice = document.querySelector('.btn--roll');
 
@@ -97,6 +96,7 @@ const new_game = function () {
   btnRollDice.disabled = false; */
   dice.classList.add('hidden');
   currentPlayer = 0;
+
   set_active();
 };
 

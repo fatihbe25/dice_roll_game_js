@@ -3,6 +3,8 @@
 const win_score = 100;
 let currentPlayer = 0;
 
+let isPlaying = true;
+
 const btnRollDice = document.querySelector('.btn--roll');
 
 const btnNewGame = document.querySelector('.btn--new');
@@ -18,6 +20,8 @@ const currentScores = document.querySelectorAll('.current-score');
 const dice = document.querySelector('.dice');
 
 const roll_dice = function () {
+  if (!isPlaying) return;
+
   const rolled_dice = Math.trunc(Math.random() * 6) + 1;
 
   dice.src = `dice-${rolled_dice}.png`;
@@ -33,7 +37,7 @@ const roll_dice = function () {
 
 const switch_player = function () {
   currentScores[currentPlayer].textContent = '0';
-  currentPlayer = currentPlayer == 0 ? 1 : 0;
+  currentPlayer = currentPlayer === 0 ? 1 : 0;
   set_active();
 };
 
@@ -41,6 +45,8 @@ const set_active = function () {
   const other = currentPlayer === 1 ? 0 : 1;
   playerSections[other].classList.remove('player--active');
   playerSections[currentPlayer].classList.add('player--active');
+
+  // playerSections.forEach(player => player.classList.toggle('player--active'));
 };
 
 const get_current_score = function () {
@@ -67,6 +73,8 @@ const set_player_score = function (score) {
 };
 
 const hold_score = function () {
+  if (!isPlaying) return;
+
   const player_new_score = get_player_score() + get_current_score();
   //console.log('ns', player_new_score);
 
@@ -80,12 +88,13 @@ const hold_score = function () {
 };
 
 const new_game = function () {
+  isPlaying = true;
   playerSections.forEach(player => player.classList.remove('player--winner'));
   playerNames.forEach(player => player.classList.remove('player--winner'));
   playerScores.forEach(score => (score.textContent = '0'));
   currentScores.forEach(score => (score.textContent = '0'));
-  btnHold.disabled = false;
-  btnRollDice.disabled = false;
+  /*   btnHold.disabled = false;
+  btnRollDice.disabled = false; */
   dice.classList.add('hidden');
   currentPlayer = 0;
   set_active();
@@ -94,15 +103,16 @@ const new_game = function () {
 const player_wins = function () {
   //alert('win');
 
-  console.log(playerSections[currentPlayer]);
+  isPlaying = false;
+  /*   console.log(playerSections[currentPlayer]);
   console.log(playerNames[currentPlayer]);
-  console.log(btnHold.style.disabled);
-
+  console.log(btnHold.style.disabled); */
+  dice.classList.add('hidden');
   playerSections[currentPlayer].classList.add('player--winner');
   playerNames[currentPlayer].classList.add('player--winner');
 
-  btnHold.disabled = true;
-  btnRollDice.disabled = true;
+  /*   btnHold.disabled = true;
+  btnRollDice.disabled = true; */
 };
 
 btnNewGame.addEventListener('click', new_game);

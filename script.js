@@ -21,6 +21,7 @@ const roll_dice = function () {
   const rolled_dice = Math.trunc(Math.random() * 6) + 1;
 
   dice.src = `dice-${rolled_dice}.png`;
+  dice.classList.remove('hidden');
 
   if (rolled_dice === 1) {
     switch_player();
@@ -85,7 +86,7 @@ const new_game = function () {
   currentScores.forEach(score => (score.textContent = '0'));
   btnHold.disabled = false;
   btnRollDice.disabled = false;
-
+  dice.classList.add('hidden');
   currentPlayer = 0;
   set_active();
 };
